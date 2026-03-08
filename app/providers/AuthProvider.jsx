@@ -231,37 +231,44 @@ const connectSocket = async (currentUser) => {
   // Join chat socket and receive messages
   // ------------------------
   useEffect(() => {
-    if (!chatId || !user) return;
+  if (!chatId || !user) return;
 
-    socket.emit("join_chat", chatId.chatId);
+  socket.emit("join_chat", chatId.chatId);
+  fetchMessagesForChat(chatId);
 
-    // fetch messages for new chat
-    fetchMessagesForChat(chatId);
+  const handleReceive = (message) => {
+    const isSender = String(message.senderId) === String(user._id);
+    const formattedMessage = {
+      ...message,
+      senderId: isSender ? "sender" : message.senderId,
+    };
+    setMessages((prev) => [...prev, formattedMessage]);
 
-    const handleReceive = (message) => {
-      const isSender = String(message.senderId) === String(user._id);
-      const formattedMessage = {
-        ...message,
-        senderId: isSender ? "sender" : message.senderId,
-      };
-      setMessages((prev) => [...prev, formattedMessage]);
-
-      setChats((prev) =>
-        prev.map((chat) =>
-          chat.chatId === chatId.chatId
-            ? { ...chat, lastMessage: message.lastMessage }
-            : chat,
-        ),
+    setChats((prev) => {
+      const exists = prev.find(c => c.chatId === message.chatId.toString());
+      if (!exists) {
+        // New chat — fetch fresh list
+        axios.get("/api/chat", { withCredentials: true })
+          .then(res => setChats(res.data))
+          .catch(() => {});
+        return prev;
+      }
+      return prev.map((chat) =>
+        chat.chatId === chatId.chatId
+          ? { ...chat, lastMessage: message.lastMessage }
+          : chat,
       );
-    };
+    });
+  };
 
-    socket.on("receive_message", handleReceive);
+  socket.on("receive_message", handleReceive);
 
-    return () => {
-      socket.emit("leave_chat", chatId.chatId);
-      socket.off("receive_message", handleReceive);
-    };
-  }, [chatId, user]);
+  return () => {
+    socket.emit("leave_chat", chatId.chatId);
+    socket.off("receive_message", handleReceive);
+  };
+}, [chatId, user]);
+  
 
   // ------------------------
   // Delete a chat
