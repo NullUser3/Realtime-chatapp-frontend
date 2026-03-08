@@ -178,7 +178,7 @@ const connectSocket = async (currentUser) => {
   // Auto-login on page reload
   // ------------------------
   useEffect(() => {
-    const publicRoutes = ["/auth/login", "/auth/sign-up"];
+    const publicRoutes = ["/auth/login", "/auth/sign-up", "/auth/callback"];
 
     if (publicRoutes.some((route) => pathname.startsWith(route))) return;
 
