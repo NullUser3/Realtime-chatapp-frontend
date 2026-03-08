@@ -40,7 +40,7 @@ const Chat = () => {
   return (
     <>
       {messagesLoading || loading ? (
-        <div className="flex w-full h-screen flex-col gap-6">
+        <div className="flex w-full h-dvh flex-col gap-6">
           <div className="flex items-center bg-background dark:bg-darkest px-6 h-24 border-b-2 border-b-subtle2 dark:border-accent">
             <div className="flex items-center gap-4">
               <Skeleton className="h-12 w-12 rounded-full" />
@@ -60,7 +60,7 @@ const Chat = () => {
           </div>
         </div>
       ) : chats.length === 0 ? (
-        <div className="w-full h-screen flex justify-center items-center">
+        <div className="w-full h-dvh flex justify-center items-center">
           <div className="flex flex-col items-center gap-3">
             <MessagesSquare className="w-40 h-40 stroke-subtle4 dark:stroke-accent" />
             <span className="text-accent/60 dark:text-background/80 font-semibold text-lg">
@@ -72,7 +72,7 @@ const Chat = () => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col h-screen w-full">
+        <div className="flex flex-col h-dvh w-full">
           {/* Header */}
           <div className="flex items-center bg-background dark:bg-darkest px-6 h-24 border-b border-b-subtle2 dark:border-accent">
             <ReceiverBar />

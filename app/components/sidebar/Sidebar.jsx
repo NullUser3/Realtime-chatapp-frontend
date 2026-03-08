@@ -131,7 +131,7 @@ const Sidebar = () => {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="lg:flex flex-col hidden bg-background dark:bg-darkest dark:border-accent lg:border-r lg:border-r-subtle2  text-foreground dark:text-background gap-3 w-80 h-screen">
+      <aside className="lg:flex flex-col hidden bg-background dark:bg-darkest dark:border-accent lg:border-r lg:border-r-subtle2  text-foreground dark:text-background gap-3 w-80 h-dvh">
         <SidebarHeader user={user} />
         <section className="w-full pl-3 lg:pr-[14px] h-18 pr-3">
           <Search />
