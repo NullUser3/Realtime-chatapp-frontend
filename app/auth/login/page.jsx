@@ -19,7 +19,6 @@ import GoogleSvg from "@/app/components/GoogleSvg";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
-
 function ErrorToast({ closeToast, data }) {
   return (
     <div className="flex flex-col w-full gap-2">
@@ -27,7 +26,9 @@ function ErrorToast({ closeToast, data }) {
         {data.title}
       </h3>
       <div className="flex items-center justify-between gap-3">
-        <p className="text-sm text-foreground/70 dark:text-background/60">{data.content}</p>
+        <p className="text-sm text-foreground/70 dark:text-background/60">
+          {data.content}
+        </p>
         <button
           onClick={closeToast}
           className="shrink-0 text-xs border border-subtle2 dark:border-accent rounded-lg px-3 py-1.5 
@@ -56,13 +57,15 @@ export default function Login() {
       await loginApi(formData);
     } catch (err) {
       toast(ErrorToast, {
-  data: {
-    title: "Login failed",
-    content: err.response?.data?.message || "Something went wrong, please try again.",
-  },
-  closeButton: false,
-  autoClose: 5000,
-});
+        data: {
+          title: "Login failed",
+          content:
+            err.response?.data?.message ||
+            "Something went wrong, please try again.",
+        },
+        closeButton: false,
+        autoClose: 5000,
+      });
       setError("root", {
         type: "server",
         message: err.response?.data?.message,
@@ -73,15 +76,19 @@ export default function Login() {
   return (
     <div className="relative py-12 flex min-h-dvh w-full text-foreground dark:bg-foreground bg-background items-center justify-center">
       <ToastContainer
-  className="absolute top-4 left-1/2 -translate-x-1/2"
-  toastClassName={() =>
-    "relative flex items-center p-3 px-4 rounded-xl shadow-md cursor-pointer " +
-    "bg-background dark:bg-foreground " +
-    "border border-subtle2 dark:border-accent " +
-    "text-sm font-medium"
-  }
-  progressStyle={{ background: "var(--accent)", opacity: 1, height: "3px" }}
-/>
+        className="absolute top-4 left-1/2 -translate-x-1/2"
+        toastClassName={() =>
+          "relative flex items-center p-3 px-4 rounded-xl shadow-md cursor-pointer " +
+          "bg-background dark:bg-foreground " +
+          "border border-subtle2 dark:border-accent " +
+          "text-sm font-medium"
+        }
+        progressStyle={{
+          background: "var(--accent)",
+          opacity: 1,
+          height: "3px",
+        }}
+      />
 
       <Card className="w-full max-w-sm dark:bg-darkest dark:border-accent">
         <CardHeader>
@@ -97,7 +104,10 @@ export default function Login() {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Email */}
             <div className="grid gap-2 text-foreground">
-              <Label className="text-foreground dark:text-background" htmlFor="email">
+              <Label
+                className="text-foreground dark:text-background"
+                htmlFor="email"
+              >
                 Email
               </Label>
               <Input
@@ -115,13 +125,16 @@ export default function Login() {
             {/* Password */}
             <div className="grid gap-2 relative pb-9">
               <div className="flex items-center text-foreground ">
-                <Label htmlFor="password" className="dark:text-background">Password</Label>
-                {/* <button
+                <Label htmlFor="password" className="dark:text-background">
+                  Password
+                </Label>
+                <button
                   type="button"
-                  className="ml-auto text-sm underline-offset-4 hover:underline dark:text-background/70 dark:hover:text-background"
+                  disabled
+                  className="ml-auto text-sm opacity-40 cursor-not-allowed dark:text-background/70"
                 >
                   Forgot password?
-                </button> */}
+                </button>
               </div>
 
               <Input
@@ -153,18 +166,21 @@ export default function Login() {
           >
             {isSubmitting ? "Logging in..." : "Login"}
           </Button>
-          <a className="py-3 text-sm dark:text-background/70 hover:dark:text-background" href="/auth/sign-up">
+          <a
+            className="py-3 text-sm dark:text-background/70 hover:dark:text-background"
+            href="/auth/sign-up"
+          >
             Don&apos;t have an account? Create one here.
           </a>
           <div className="flex w-full items-center gap-3 mb-3">
             <div className="flex-1 h-px bg-subtle3 dark:bg-accent/40"></div>
-            <span className="text-foreground/80 dark:text-background/50">or</span>
+            <span className="text-foreground/80 dark:text-background/50">
+              or
+            </span>
             <div className="flex-1 h-px bg-subtle3 dark:bg-accent/40"></div>
           </div>
           <Button
-            onClick={() =>
-    (window.location.href = `/api/auth/google`)
-  }
+            onClick={() => (window.location.href = `/api/auth/google`)}
             variant="outline"
             className="w-full cursor-pointer bg-background dark:bg-foreground dark:border-accent dark:text-background dark:hover:bg-accent hover:bg-subtle/60 flex gap-3"
           >
