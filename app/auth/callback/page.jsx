@@ -14,7 +14,7 @@ useEffect(() => {
     axios.post("/api/auth/set-cookie", { token })
       .then(() => {
         // Small delay to ensure cookie is registered by browser
-        setTimeout(() => router.replace("/"), 100);
+        setTimeout(() => router.replace("/"), 500);
       })
       .catch(() => router.replace("/login"));
   }
