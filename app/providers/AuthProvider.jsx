@@ -24,12 +24,16 @@ export const AuthProvider = ({ children }) => {
   // ------------------------
   // Helper functions
   // ------------------------
-  const connectSocket = (currentUser) => {
-    if (!currentUser) return;
-    if (!socket.connected) socket.connect();
+const connectSocket = async (currentUser) => {
+  if (!currentUser) return;
+  if (!socket.connected) {
+    const { data } = await axios.get("/api/users/token");
+    socket.auth = { token: data.token };
+    socket.connect();
+  }
 
-    socket.on("connect", () => {});
-  };
+  socket.on("connect", () => {});
+};
 
   const fetchMessages = async (chat) => {
     try {
@@ -106,7 +110,7 @@ export const AuthProvider = ({ children }) => {
       if (initialChat) await fetchMessages(initialChat);
 
       // Connect socket
-      connectSocket(userData);
+      await connectSocket(userData);
 
       router.push("/");
     } catch (err) {
@@ -157,7 +161,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       // Connect socket
-      connectSocket(userData);
+      await connectSocket(userData);
 
       router.push("/");
     } catch (err) {
@@ -210,7 +214,7 @@ export const AuthProvider = ({ children }) => {
           }
         }
 
-        connectSocket(userData);
+        await connectSocket(userData);
       } catch (err) {
         setIsAuthenticated(false);
         localStorage.removeItem("lastChat");
