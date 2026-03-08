@@ -114,14 +114,14 @@ export default function Login() {
 
             {/* Password */}
             <div className="grid gap-2 relative pb-9">
-              <div className="flex items-center text-foreground">
+              <div className="flex items-center text-foreground ">
                 <Label htmlFor="password" className="dark:text-background">Password</Label>
-                <button
+                {/* <button
                   type="button"
                   className="ml-auto text-sm underline-offset-4 hover:underline dark:text-background/70 dark:hover:text-background"
                 >
                   Forgot password?
-                </button>
+                </button> */}
               </div>
 
               <Input
