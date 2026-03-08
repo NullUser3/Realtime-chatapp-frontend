@@ -96,18 +96,19 @@ const connectSocket = async (currentUser) => {
       setIsAuthenticated(true);
 
       // Fetch chats
-      const { data: chatData } = await axios.get(
-        `/api/chat`,
-        { withCredentials: true },
-      );
-      setChats(chatData);
-
-      // Restore initial chat
-      const initialChat = setInitialChat(chatData);
-      setChatId(initialChat);
-
-      // Fetch messages
-      if (initialChat) await fetchMessages(initialChat);
+      try {
+  const { data: chatData } = await axios.get("/api/chat", { withCredentials: true });
+  setChats(chatData);
+  const initialChat = setInitialChat(chatData);
+  setChatId(initialChat);
+  if (initialChat) await fetchMessages(initialChat);
+} catch (chatErr) {
+  if (chatErr.response?.status === 404) {
+    setChats([]);
+  } else {
+    throw chatErr;
+  }
+}
 
       // Connect socket
       await connectSocket(userData);
