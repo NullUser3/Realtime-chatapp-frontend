@@ -96,6 +96,7 @@ const SidebarHeader = ({ user }) => (
 
 const MobileSidebarHeader = ({ user }) => (
   <header className="flex items-center justify-between -mb-3 lg:pb-[2px] h-24 w-full pl-6 pr-6 lg:pl-[26px] lg:pr-[26px]">
+    <div className="flex items-center gap-3">
     {user?.avatar ? (
         <div className="w-11 h-11 rounded-full overflow-hidden">
           <Image src={user?.avatar} width={100} height={100} alt="avatar" />
@@ -105,6 +106,11 @@ const MobileSidebarHeader = ({ user }) => (
       <span>{user?.username?.charAt(0)}</span>
     </div>
       )}
+      <div className="flex flex-col">
+        <span>{user?.username}</span>
+        <span className="text-green-500">online</span>
+      </div>
+      </div>
     <div className="flex items-center gap-2">
       <ThemeToggle />
       <Logout />
@@ -158,7 +164,7 @@ const Sidebar = () => {
         <SheetTitle className="sr-only">menu</SheetTitle>
         <SheetContent
           side="left"
-          className="p-0 w-80 bg-background dark:bg-darkest backdrop-blur-sm border-r-2 border-r-subtle2 dark:border-accent text-foreground flex flex-col gap-3"
+          className="p-0 w-80 bg-background dark:bg-darkest backdrop-blur-sm border-r-2 border-r-subtle2 dark:border-accent text-foreground dark:text-background flex flex-col gap-3"
         >
           <MobileSidebarHeader user={user} />
           <section className="w-full pl-3 lg:pr-[14px] h-18 pr-3">

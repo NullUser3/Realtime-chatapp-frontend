@@ -57,7 +57,7 @@ export default function SignUp() {
     }`;
 
   return (
-    <div className="relative py-12 flex min-h-screen w-full text-foreground dark:bg-foreground bg-background items-center justify-center">
+    <div className="relative py-12 flex min-h-dvh w-full text-foreground dark:bg-foreground bg-background items-center justify-center">
       <ToastContainer className="absolute top-4 left-1/2 -translate-x-1/2" />
 
       <Card className="w-full max-w-sm dark:bg-darkest dark:border-accent">
