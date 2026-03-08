@@ -106,6 +106,7 @@ const Chat = () => {
                             {new Date(msg.createdAt).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
+                              hour12: true,
                             })}
                           </span>
                         </div>
@@ -129,6 +130,7 @@ const Chat = () => {
                             {new Date(msg.createdAt).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
+                              hour12: true,
                             })}
                           </span>
                         </div>
