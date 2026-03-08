@@ -12,7 +12,7 @@ const Logout = () => {
   const logoutApi = async () => {
     try {
       const logoutRequest = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/users/logout`,
+        `/api/users/logout`,
         {},
         { withCredentials: true },
       );

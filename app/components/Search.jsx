@@ -32,7 +32,7 @@ export function Search() {
     const searchUsers = async () => {
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/users/searchUsers`,
+          `/api/users/searchUsers`,
           { withCredentials: true },
         );
         setUsers(res.data);
@@ -63,7 +63,7 @@ export function Search() {
 
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/chat`,
+        `/api/chat`,
         { receiverId: pendingUser._id },
         { withCredentials: true },
       );

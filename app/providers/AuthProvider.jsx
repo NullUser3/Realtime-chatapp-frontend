@@ -38,7 +38,7 @@ const connectSocket = async (currentUser) => {
   const fetchMessages = async (chat) => {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/messages/${chat.chatId}`,
+        `/api/messages/${chat.chatId}`,
         { withCredentials: true },
       );
       setMessages(res.data);
@@ -51,7 +51,7 @@ const connectSocket = async (currentUser) => {
     setMessagesLoading(true); // start loading
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/messages/${chat.chatId}`,
+        `/api/messages/${chat.chatId}`,
         { withCredentials: true },
       );
       setMessages(res.data);
@@ -82,14 +82,14 @@ const connectSocket = async (currentUser) => {
   const loginApi = async (credentials) => {
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/users/login`,
+        `/api/users/login`,
         credentials,
         { withCredentials: true },
       );
 
       // Fetch user
       const { data: userData } = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/users/me`,
+        `/api/users/me`,
         { withCredentials: true },
       );
       setUser(userData);
@@ -97,7 +97,7 @@ const connectSocket = async (currentUser) => {
 
       // Fetch chats
       const { data: chatData } = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/chat`,
+        `/api/chat`,
         { withCredentials: true },
       );
       setChats(chatData);
@@ -125,14 +125,14 @@ const connectSocket = async (currentUser) => {
   const registerApi = async (credentials) => {
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/users/sign-up`,
+        `/api/users/sign-up`,
         credentials,
         { withCredentials: true },
       );
 
       // Fetch user
       const { data: userData } = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/users/me`,
+        `/api/users/me`,
         { withCredentials: true },
       );
 
@@ -141,7 +141,7 @@ const connectSocket = async (currentUser) => {
 
       try {
         const { data: chatData } = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/chat`,
+          `/api/chat`,
           { withCredentials: true },
         );
 
@@ -185,7 +185,7 @@ const connectSocket = async (currentUser) => {
       try {
         // 1️⃣ Check auth first
         const { data: userData } = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/users/me`,
+          `/api/users/me`,
           { withCredentials: true },
         );
 
@@ -195,7 +195,7 @@ const connectSocket = async (currentUser) => {
         // 2️⃣ Get chats (handle 404 separately)
         try {
           const { data: chatData } = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/chat`,
+            `/api/chat`,
             { withCredentials: true },
           );
 
@@ -269,7 +269,7 @@ const connectSocket = async (currentUser) => {
   const deleteChat = async (chatToDelete) => {
     try {
       await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/chat/${chatToDelete.chatId}`,
+        `/api/chat/${chatToDelete.chatId}`,
         { withCredentials: true },
       );
 

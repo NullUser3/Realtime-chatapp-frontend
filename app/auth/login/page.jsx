@@ -163,7 +163,7 @@ export default function Login() {
           </div>
           <Button
             onClick={() =>
-    (window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`)
+    (window.location.href = `/api/auth/google`)
   }
             variant="outline"
             className="w-full cursor-pointer bg-background dark:bg-foreground dark:border-accent dark:text-background dark:hover:bg-accent hover:bg-subtle/60 flex gap-3"
