@@ -1,9 +1,10 @@
 "use client";
+import { Suspense } from "react";
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 
-export default function AuthCallback() {
+function CallbackHandler() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -17,4 +18,12 @@ export default function AuthCallback() {
   }, []);
 
   return <p>Logging you in...</p>;
+}
+
+export default function AuthCallback() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <CallbackHandler />
+    </Suspense>
+  );
 }
