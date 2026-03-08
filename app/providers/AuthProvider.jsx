@@ -253,10 +253,13 @@ const connectSocket = async (currentUser) => {
   useEffect(() => {
   if (!chatId || !user) return;
 
+  
   socket.emit("join_chat", chatId.chatId);
   fetchMessagesForChat(chatId);
 
   const handleReceive = (message) => {
+    if (message.chatId.toString() !== chatId.chatId.toString()) return;
+    
   const isSender = String(message.senderId) === String(user._id);
   const formattedMessage = {
     ...message,
