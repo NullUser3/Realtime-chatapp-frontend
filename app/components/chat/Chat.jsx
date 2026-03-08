@@ -93,7 +93,7 @@ const Chat = () => {
                         key={key}
                         className="
                           bg-accent dark:bg-accent/90 text-background shadow-sm self-end
-                          ml-auto break-all overflow-hidden
+                          ml-auto wrap-break-word overflow-hidden
                           max-w-[80%] md:max-w-[65%] lg:max-w-[55%] xl:max-w-[45%]
                           px-3 py-2 md:px-4 md:py-2.5 lg:px-5 lg:py-3
                           rounded-l-xl rounded-b-xl
@@ -117,7 +117,7 @@ const Chat = () => {
                         key={key}
                         className="
                           bg-background dark:bg-foreground/50 shadow-sm self-start
-                          break-all overflow-hidden
+                          wrap-break-word overflow-hidden
                           max-w-[80%] md:max-w-[65%] lg:max-w-[55%] xl:max-w-[45%]
                           px-3 py-2 md:px-4 md:py-2.5 lg:px-5 lg:py-3
                           rounded-r-xl rounded-b-xl
