@@ -230,6 +230,26 @@ const connectSocket = async (currentUser) => {
   // ------------------------
   // Join chat socket and receive messages
   // ------------------------
+
+  useEffect(() => {
+  if (!user) return;
+
+  const handleNewChat = (message) => {
+    setChats((prev) => {
+      const exists = prev.find(c => c.chatId === message.chatId.toString());
+      if (!exists) {
+        axios.get("/api/chat", { withCredentials: true })
+          .then(res => setChats(res.data))
+          .catch(() => {});
+      }
+      return prev;
+    });
+  };
+
+  socket.on("receive_message", handleNewChat);
+  return () => socket.off("receive_message", handleNewChat);
+}, [user]);
+
   useEffect(() => {
   if (!chatId || !user) return;
 
@@ -237,29 +257,22 @@ const connectSocket = async (currentUser) => {
   fetchMessagesForChat(chatId);
 
   const handleReceive = (message) => {
-    const isSender = String(message.senderId) === String(user._id);
-    const formattedMessage = {
-      ...message,
-      senderId: isSender ? "sender" : message.senderId,
-    };
-    setMessages((prev) => [...prev, formattedMessage]);
-
-    setChats((prev) => {
-      const exists = prev.find(c => c.chatId === message.chatId.toString());
-      if (!exists) {
-        // New chat — fetch fresh list
-        axios.get("/api/chat", { withCredentials: true })
-          .then(res => setChats(res.data))
-          .catch(() => {});
-        return prev;
-      }
-      return prev.map((chat) =>
-        chat.chatId === chatId.chatId
-          ? { ...chat, lastMessage: message.lastMessage }
-          : chat,
-      );
-    });
+  const isSender = String(message.senderId) === String(user._id);
+  const formattedMessage = {
+    ...message,
+    senderId: isSender ? "sender" : message.senderId,
   };
+  setMessages((prev) => [...prev, formattedMessage]);
+
+  // Only update lastMessage for existing chats
+  setChats((prev) =>
+    prev.map((chat) =>
+      chat.chatId === chatId.chatId
+        ? { ...chat, lastMessage: message.lastMessage }
+        : chat,
+    ),
+  );
+};
 
   socket.on("receive_message", handleReceive);
 
