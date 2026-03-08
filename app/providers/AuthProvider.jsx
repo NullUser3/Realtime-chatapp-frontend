@@ -179,8 +179,7 @@ const connectSocket = async (currentUser) => {
   // ------------------------
   useEffect(() => {
     const publicRoutes = ["/auth/login", "/auth/sign-up", "/auth/callback"];
-
-    if (publicRoutes.some((route) => pathname.startsWith(route))) return;
+  if (publicRoutes.some((route) => pathname.startsWith(route))) return;
 
     const authApi = async () => {
       try {
@@ -226,7 +225,7 @@ const connectSocket = async (currentUser) => {
     };
 
     authApi();
-  }, [router]);
+  }, [pathname]);
 
   // ------------------------
   // Join chat socket and receive messages
