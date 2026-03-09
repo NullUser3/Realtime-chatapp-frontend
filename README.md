@@ -1,4 +1,4 @@
-Realtime Chat App
+# Realtime Chat App
 
 A full-stack realtime messaging application that allows users to communicate instantly in a modern chat interface.
 The app supports authentication, user search, and realtime message delivery using WebSockets.
@@ -18,7 +18,7 @@ The app supports authentication, user search, and realtime message delivery usin
 - MongoDB
 - Socket.io
 
-![Chat App Screenshot](https://github.com/NullUser3/Realtime-chatapp-frontend/realtime-chatapp.png)
+![Chat App Screenshot](https://github.com/NullUser3/Realtime-chatapp-frontend/blob/main/realtime-chatapp.png)
 
 
 
