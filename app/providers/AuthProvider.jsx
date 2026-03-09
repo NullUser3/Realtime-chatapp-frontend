@@ -264,7 +264,11 @@ const connectSocket = async (currentUser) => {
     ...message,
     senderId: isSender ? "sender" : message.senderId,
   };
-  setMessages((prev) => [...prev, formattedMessage]);
+  setMessages((prev) => {
+  const exists = prev.find(m => m._id === formattedMessage._id);
+  if (exists) return prev;
+  return [...prev, formattedMessage];
+});
 
   // Only update lastMessage for existing chats
   setChats((prev) =>
