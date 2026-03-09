@@ -9,7 +9,7 @@ import { socket } from "@/app/tools/Socket";
 import { useAuth } from "@/app/providers/AuthProvider";
 
 const Chat = () => {
-  const { messages, chatId, messagesLoading, loading, chats } = useAuth();
+  const { messages, chatId, messagesLoading, loading, chats ,setMessages} = useAuth();
   const { register, handleSubmit, reset } = useForm();
   const containerRef = useRef(null);
 
@@ -25,17 +25,24 @@ const Chat = () => {
     if (messages) scrollToBottom();
   }, [messages]);
 
-  const onSubmit = async (data) => {
-    try {
-      socket.emit("send_message", {
-        chatId: chatId.chatId,
-        body: data.message,
-      });
-      reset();
-    } catch (error) {
-      console.error("Error sending message:", error);
-    }
+const onSubmit = (data) => {
+  const tempId = `temp-${crypto.randomUUID()}`;
+  const optimisticMessage = {
+    _id: tempId,
+    body: data.message,
+    senderId: "sender",
+    chatId: chatId.chatId,
+    createdAt: new Date().toISOString(),
   };
+
+  setMessages((prev) => [...prev, optimisticMessage]);
+  reset();
+
+  socket.emit("send_message", {
+    chatId: chatId.chatId,
+    body: data.message,
+  });
+};
 
   return (
     <>

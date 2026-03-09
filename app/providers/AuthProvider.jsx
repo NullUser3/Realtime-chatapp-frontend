@@ -256,21 +256,35 @@ const connectSocket = async (currentUser) => {
   socket.emit("join_chat", chatId.chatId);
   fetchMessagesForChat(chatId);
 
-  const handleReceive = (message) => {
-    if (message.chatId.toString() !== chatId.chatId.toString()) return;
-    
-  const isSender = String(message.senderId) === String(user._id);
-  const formattedMessage = {
-    ...message,
-    senderId: isSender ? "sender" : message.senderId,
-  };
-  setMessages((prev) => {
-  const exists = prev.find(m => m._id === formattedMessage._id);
-  if (exists) return prev;
-  return [...prev, formattedMessage];
-});
+ const handleReceive = (message) => {
+  if (message.chatId.toString() !== chatId.chatId.toString()) return;
 
-  // Only update lastMessage for existing chats
+  const isSender = String(message.senderId) === String(user._id);
+  
+  // Skip sender's own messages — already shown optimistically
+  if (isSender) {
+    // Just replace the optimistic message with the real one
+    setMessages((prev) => {
+      const withoutOptimistic = prev.filter(m => !m._id.toString().startsWith("temp-"));
+      return [...withoutOptimistic, { ...message, senderId: "sender" }];
+    });
+    setChats((prev) =>
+      prev.map((chat) =>
+        chat.chatId === chatId.chatId
+          ? { ...chat, lastMessage: message.lastMessage }
+          : chat,
+      ),
+    );
+    return;
+  }
+
+  const formattedMessage = { ...message, senderId: message.senderId };
+  setMessages((prev) => {
+    const exists = prev.find(m => m._id === formattedMessage._id);
+    if (exists) return prev;
+    return [...prev, formattedMessage];
+  });
+
   setChats((prev) =>
     prev.map((chat) =>
       chat.chatId === chatId.chatId
