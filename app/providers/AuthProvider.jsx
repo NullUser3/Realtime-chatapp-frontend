@@ -232,16 +232,15 @@ const connectSocket = async (currentUser) => {
   // ------------------------
 
   useEffect(() => {
-  if (!user) return;
+   if (!user) return;
 
   const handleNewChat = (message) => {
     setChats((prev) => {
       const exists = prev.find(c => c.chatId === message.chatId.toString());
-      if (!exists) {
-        axios.get("/api/chat", { withCredentials: true })
-          .then(res => setChats(res.data))
-          .catch(() => {});
-      }
+      if (exists) return prev; // ✅ chat exists, do nothing
+      axios.get("/api/chat", { withCredentials: true })
+        .then(res => setChats(res.data))
+        .catch(() => {});
       return prev;
     });
   };
